@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────────
+   Throughline — design tokens
+   The CSS variable layer IS the source of truth. @theme below
+   re-exports them to Tailwind so utilities (text-foreground,
+   bg-surface, etc.) pull from the same source.
+   ────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color — light theme (default) */
+  --background: #fafaf7;            /* near-white, warm paper */
+  --surface: #ffffff;                /* card / sheet surface */
+  --surface-2: #f4f4f0;              /* alt stripe, hover wash */
+  --foreground: #0a0a0b;             /* primary text */
+  --foreground-muted: #5b5b62;       /* secondary text */
+  --foreground-subtle: #8b8b93;      /* tertiary text, placeholders */
+  --border: #e6e6e1;                 /* hairline */
+  --border-strong: #d3d3cc;          /* emphasized border */
+  --accent: #2563eb;                 /* brand accent */
+  --accent-hover: #1d4ed8;
+  --accent-foreground: #ffffff;
+  --accent-soft: #dbeafe;            /* subtle fill */
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --focus-ring: #2563eb;
+  --overlay: rgb(10 10 11 / 0.42);
+
+  /* Type scale (rem) */
+  --text-2xs: 0.6875rem;             /* 11px — mono eyebrows */
+  --text-xs: 0.75rem;                /* 12px — meta */
+  --text-sm: 0.8125rem;              /* 13px — UI default sm */
+  --text-base: 0.9375rem;            /* 15px — UI default */
+  --text-md: 1rem;                   /* 16px — body */
+  --text-lg: 1.125rem;               /* 18px */
+  --text-xl: 1.375rem;               /* 22px */
+  --text-2xl: 1.75rem;               /* 28px */
+  --text-3xl: 2.25rem;               /* 36px */
+  --text-display: 3.5rem;            /* 56px — Sora display */
+
+  /* Spacing (rem) — 4px base */
+  --space-0: 0;
+  --space-1: 0.25rem;                /* 4 */
+  --space-2: 0.5rem;                 /* 8 */
+  --space-3: 0.75rem;                /* 12 */
+  --space-4: 1rem;                   /* 16 */
+  --space-5: 1.5rem;                 /* 24 */
+  --space-6: 2rem;                   /* 32 */
+  --space-7: 3rem;                   /* 48 */
+  --space-8: 4rem;                   /* 64 */
+  --space-9: 6rem;                   /* 96 */
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;                  /* default for chips, inputs */
+  --radius-md: 8px;                  /* default for buttons, cards */
+  --radius-lg: 12px;                 /* cards, sheets */
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadow — restrained, enterprise-credible */
+  --shadow-xs: 0 1px 0 0 rgb(10 10 11 / 0.04);
+  --shadow-sm: 0 1px 2px 0 rgb(10 10 11 / 0.06), 0 1px 0 0 rgb(10 10 11 / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(10 10 11 / 0.08), 0 2px 4px -2px rgb(10 10 11 / 0.06);
+  --shadow-lg: 0 12px 32px -6px rgb(10 10 11 / 0.12), 0 4px 8px -2px rgb(10 10 11 / 0.06);
+  --shadow-overlay: 0 24px 64px -12px rgb(10 10 11 / 0.24);
+
+  /* Motion */
+  --duration-instant: 90ms;
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-slow: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.05);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
 }
 
+/* Dark theme — same variable names, different values.
+   Applied by adding [data-theme="dark"] to <html>. */
+[data-theme="dark"] {
+  --background: #0b0b0d;
+  --surface: #131318;
+  --surface-2: #1c1c22;
+  --foreground: #f5f5f3;
+  --foreground-muted: #a0a0a8;
+  --foreground-subtle: #6b6b72;
+  --border: #25252d;
+  --border-strong: #34343d;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-foreground: #ffffff;
+  --accent-soft: #1e3a8a40;
+  --success: #4ade80;
+  --success-soft: #14532d40;
+  --warning: #facc15;
+  --warning-soft: #78350f40;
+  --danger: #f87171;
+  --danger-soft: #7f1d1d40;
+  --focus-ring: #60a5fa;
+  --overlay: rgb(0 0 0 / 0.6);
+
+  --shadow-xs: 0 1px 0 0 rgb(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5), 0 1px 0 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 12px 32px -6px rgb(0 0 0 / 0.6), 0 4px 8px -2px rgb(0 0 0 / 0.3);
+  --shadow-overlay: 0 24px 64px -12px rgb(0 0 0 / 0.8);
+}
+
+/* Expose tokens to Tailwind as utility classes (bg-surface, text-foreground, etc). */
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-focus-ring: var(--focus-ring);
+  --color-overlay: var(--overlay);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-overlay: var(--shadow-overlay);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base — body uses Inter, .font-display uses Sora. */
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Focus ring — keyboard-only. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* Reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
 }
