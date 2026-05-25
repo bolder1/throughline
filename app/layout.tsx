@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
+import { AppShell } from "@/components/AppShell";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider, ToastViewport } from "@/components/ui/Toast";
+import { StoreProvider } from "@/lib/store";
 import "./globals.css";
 
 const sans = Inter({
@@ -46,10 +48,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>
-          <ToastProvider>
-            {children}
-            <ToastViewport />
-          </ToastProvider>
+          <StoreProvider>
+            <ToastProvider>
+              <AppShell>{children}</AppShell>
+              <ToastViewport />
+            </ToastProvider>
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>

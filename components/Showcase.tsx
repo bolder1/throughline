@@ -39,7 +39,6 @@ import {
   SheetTitle,
 } from "@/components/ui/Sheet";
 import { PressableTag, StatusDot, Tag } from "@/components/ui/Tag";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useToast } from "@/components/ui/Toast";
 
 /**
@@ -112,22 +111,19 @@ export function Showcase() {
 
 function Header() {
   return (
-    <header className="mb-12 flex items-start justify-between gap-6">
-      <div>
-        <p className="text-[var(--text-2xs)] font-medium uppercase tracking-[0.18em] text-foreground-muted">
-          Throughline · Design System
-        </p>
-        <h1 className="font-display mt-2 text-[var(--text-3xl)] font-semibold leading-tight text-foreground">
-          The primitive library.
-        </h1>
-        <p className="mt-3 max-w-[60ch] text-[var(--text-md)] text-foreground-muted">
-          Eight primitives, each documented with their full variant matrix.
-          Built on a CSS-variable token layer so light, dark, and future
-          themes share one source of truth. The app screens get built on top
-          of these — not in parallel with them.
-        </p>
-      </div>
-      <ThemeToggle />
+    <header className="mb-12">
+      <p className="text-[var(--text-2xs)] font-medium uppercase tracking-[0.18em] text-foreground-muted">
+        Throughline · Design System
+      </p>
+      <h1 className="font-display mt-2 text-[var(--text-3xl)] font-semibold leading-tight text-foreground">
+        The primitive library.
+      </h1>
+      <p className="mt-3 max-w-[60ch] text-[var(--text-md)] text-foreground-muted">
+        Eight primitives, each documented with their full variant matrix.
+        Built on a CSS-variable token layer so light, dark, and future
+        themes share one source of truth. The app screens get built on top
+        of these — not in parallel with them.
+      </p>
     </header>
   );
 }

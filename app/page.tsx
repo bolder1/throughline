@@ -1,5 +1,5 @@
-import { Showcase } from "@/components/Showcase";
+import { Inbox } from "@/components/inbox/Inbox";
 
-export default function Home() {
-  return <Showcase />;
+export default function HomePage() {
+  return <Inbox />;
 }
